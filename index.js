@@ -36,3 +36,8 @@ app.post("/carros", (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Server rodando na porta ${PORT}`));
+
+app.get("/carros/:id", (req, res) => {
+    const{id} = req.params;
+    sql.query(connectionString, `SELECT * FROM carros WHERE id = ${id}`, (erro, rows) => {}
+});
