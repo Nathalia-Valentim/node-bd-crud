@@ -22,9 +22,7 @@ app.get("/carros", (req, res) => {
 //escrita 
 app.post("/carros", (req, res) => {
     const { modelo, marca } = req.body;
-    sql.query(
-        connectionString,
-        `INSERT INTO carros VALUES ('${ modelo }', '${ marca }')`,
+    sql.query(connectionString, `INSERT INTO carros VALUES ('${ modelo }', '${ marca }')`,
         (erro, rows) => {
             if(erro) {
                 res.status(500).json("Erro Interno de Servidor");
@@ -39,5 +37,23 @@ app.listen(PORT, () => console.log(`Server rodando na porta ${PORT}`));
 
 app.get("/carros/:id", (req, res) => {
     const{id} = req.params;
-    sql.query(connectionString, `SELECT * FROM carros WHERE id = ${id}`, (erro, rows) => {}
+    sql.query(connectionString, `SELECT * FROM carros WHERE id = ${id}`, (erro, rows) => {
+        if (erro) {
+            res.status(500).json("Erro Interno de Servidor");
+        } else {
+            res.status(200).json(rows);
+        }
+    });
+});
+
+app.put("/carros/:id", (req, res) => {
+    const{id} = req.params;
+    const{modelo, marca} = req.body;
+    sql.query(connectionString, `UPDATE carros SET modelo = '${modelo}', marca = '${marca}' WHERE id = ${id}`, (erro, rows) => {
+        if (erro) {
+            res.status(500).json("Erro Interno de Servidor");
+        } else {
+            res.status(201).json("Atualizado com sucesso!");
+        }
+    });
 });
