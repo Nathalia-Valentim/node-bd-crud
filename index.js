@@ -57,3 +57,14 @@ app.put("/carros/:id", (req, res) => {
         }
     });
 });
+
+app.delete("/carros/:id", (req, res) => {
+    const{id} = req.params;
+    sql.query(connectionString, `DELETE FROM carros WHERE id = ${id}`, (erro, rows) => {
+        if (erro) {
+            res.status(500).json("Erro Interno de Servidor");
+        } else {
+            res.status(201).json("Deletado com sucesso!");
+        }
+    });
+});
